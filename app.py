@@ -8,10 +8,17 @@ from openai import OpenAI
 # --- 1. CONFIG & AUTH ---
 st.set_page_config(page_title="AI Trader Intelligence", layout="wide", page_icon="📈")
 
+# --- ADD THIS INSIDE THE SIDEBAR BLOCK ---
 with st.sidebar:
     st.header("Authentication")
-    user_api_key = st.text_input("OpenAI API Key", type="password", help="Enter your sk-... key here")
-    st.info("The news section now uses a fallback RSS engine if yfinance is blocked.")
+    user_api_key = st.text_input("OpenAI API Key", type="password")
+    
+    st.markdown("---") # Adds a visual separator line
+    
+    # The Disclaimer
+    st.warning("**Disclaimer:** This tool uses AI to summarize SEC filings. "
+               "Summaries may contain inaccuracies. This is for informational "
+               "purposes only and does NOT constitute financial advice.")
 
 # Initialize OpenAI client only if key is provided
 client = OpenAI(api_key=user_api_key) if user_api_key else None
@@ -99,3 +106,4 @@ if ticker:
                                 st.info(res.choices[0].message.content)
         else:
             st.error("Ticker not found.")
+
